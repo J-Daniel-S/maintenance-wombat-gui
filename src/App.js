@@ -15,6 +15,7 @@ const Home = () => {
   const [maintainerState, setMaintainerState] = useState(true);
   const [taskMessageState, setTaskMessageState] = useState([]);
   const [locationState, setLocationState] = useState("");
+  const [categoryState, setCategoryState] = useState("");
   const [usernameState, setUsernameState] = useState("");
   const [passwordState, setPasswordState] = useState("");
   const [userState, setUserState] = useState();
@@ -105,7 +106,7 @@ const Home = () => {
   };
 
   const sendUser = (user) => {
-    document.body.style.cursor = 'default';
+    document.body.style.cursor = 'wait';
     userSocketRef.current.send(JSON.stringify(user));
     console.log(user.userType);
   };
@@ -207,6 +208,8 @@ const Home = () => {
   };
 
   const logout = () => {
+    window.location.reload();
+    /*  Necessary if the above is deleted
     setLoginState(true);
     setMaintainerState(true);
     setTaskMessageState([]);
@@ -223,11 +226,12 @@ const Home = () => {
     usernameRef.current = "";
     passwordRef.current = "";
     tasksRef.current = [];
+    */
   };
 
   return (
     <main className="main">
-      <Header maintainerState={maintainerState} loginState={loginState} />
+      <Header maintainerState={maintainerState} loginState={loginState} categoryState={categoryState} locationState={locationState} setCategoryState={setCategoryState} setLocationState={setLocationState} />
       {loginState && (
         <Login
           updateUsernameText={updateUsernameText}
@@ -247,7 +251,7 @@ const Home = () => {
             initialRequestState={initialMaintenanceRequestState}
             setInitialRequestState={setMaintenanceInitialRequestState}
             userState={userState}
-            setLocationState={setLocationState}
+            categoryState={categoryState}
           />
         ) : (
           <Requester socket={taskSocketRef.current} userState={userState} />

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
 
 const Description = (props) => {
@@ -7,6 +8,7 @@ const Description = (props) => {
 
   const clear = () => {
     props.setDescriptionState("");
+    props.setButtonState(false);
   }
 
   return (

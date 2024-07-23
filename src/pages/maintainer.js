@@ -6,11 +6,9 @@ import Tasks from "../components/tasks";
 import Description from "../components/maintainer/mDescription";
 
 const Maintainer = (props) => {
-  const [textState, setTextState] = useState("");
   const [taskState, setTask] = useState(null);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [selectedState, setSelectedState] = useState(false);
-  const [prevTasksState, setPrevState] = useState([]);
   const [filteredState, setFilteredState] = useState([]);
 
   useEffect(() => {
@@ -24,14 +22,20 @@ const Maintainer = (props) => {
       );
     }
 
+    if (props.categoryState !== "") {
+        setFilteredState(filteredState.filter((task) => task.kind === props.categoryState.toUpperCase()));
+    }
+
     if (props.initialRequestState === false) {
       props.getTasks();
       props.setInitialRequestState(true);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     props.messageState,
     props.tasksState,
     props.locationState,
+    props.categoryState
   ]);
 
   const taskSelected = (t) => {
@@ -75,54 +79,10 @@ const Maintainer = (props) => {
     props.socket.send(toSend);
   };
 
-  let id = 0;
-  const locations = [
-    // will have to integrate id into messages received from the back end
-    { location: "All", id: ++id },
-    { location: "San Antonio", id: ++id },
-    { location: "Fort Worth", id: ++id },
-    { location: "Abilene", id: ++id },
-    { location: "Lubbock", id: ++id },
-    { location: "Amarillo", id: ++id },
-    { location: "McAllen", id: ++id },
-    { location: "Sugarland", id: ++id },
-  ];
-
-  const changed = location => {
-    if (location !== "All")
-      props.setLocationState(location);
-    else
-      props.setLocationState("");
-  };
-
   return (
     <React.Fragment>
       <section className="container">
         <br></br>
-        <div className="row">
-          <div className="card">
-            <div className="card-content">
-              <span className="card-title">Select Location</span>
-              <form action="#">
-                {locations.map((l) => (
-                  <p key={l.id}>
-                    <label>
-                      <input
-                        className="with-gap"
-                        name="group1"
-                        tag="radios"
-                        type="radio"
-                        onChange={() => changed(l.location)}
-                        required
-                      />
-                      <span>{l.location}</span>
-                    </label>
-                  </p>
-                ))}
-              </form>
-            </div>
-          </div>
-        </div>
         <section>
           <Tasks
             setSelected={taskSelected}

@@ -26,6 +26,10 @@ const Requester = (props) => {
 
   const updateDescriptionText = (event) => {
     if (descriptionState.length <= 50) {
+      if (descriptionState.length < 5) 
+        setButtonState(false);
+      else
+        setButtonState(true);
       setPrevDescriptionState(descriptionState);
       setDescriptionState(event.target.value);
     } else {
@@ -80,6 +84,7 @@ const Requester = (props) => {
             updateDescriptionText={updateDescriptionText}
             description={descriptionState}
             setDescriptionState={setDescriptionState}
+            setButtonState={setButtonState}
           />
         </article>
         <article className="row">
