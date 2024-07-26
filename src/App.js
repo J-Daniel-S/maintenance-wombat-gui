@@ -207,6 +207,15 @@ const Home = () => {
     }
   };
 
+  const taskAccepted = () => {
+    let tempCat = categoryState;
+    let tempLoc = locationState;
+    setCategoryState("");
+    setLocationState("");
+    setTimeout(() => setCategoryState(tempCat), 200);
+    setTimeout(() => setLocationState(tempLoc), 200);
+  };
+
   const logout = () => {
     window.location.reload();
     /*  Necessary if the above is deleted
@@ -252,6 +261,7 @@ const Home = () => {
             setInitialRequestState={setMaintenanceInitialRequestState}
             userState={userState}
             categoryState={categoryState}
+            accepted={() => taskAccepted()}
           />
         ) : (
           <Requester socket={taskSocketRef.current} userState={userState} />

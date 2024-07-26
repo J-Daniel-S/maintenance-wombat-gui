@@ -35,7 +35,8 @@ const Maintainer = (props) => {
     props.messageState,
     props.tasksState,
     props.locationState,
-    props.categoryState
+    props.categoryState,
+    props.acceptedState
   ]);
 
   const taskSelected = (t) => {
@@ -60,7 +61,7 @@ const Maintainer = (props) => {
     setSelectedTaskId(null);
   };
 
-  const submit = () => {
+  const accept = () => {
     let task = {
       task: {
         id: taskState.id,
@@ -77,6 +78,7 @@ const Maintainer = (props) => {
     // to replace with "receive and update" when connected to backend
     // removeTask();
     props.socket.send(toSend);
+    props.accepted();
   };
 
   return (
@@ -101,7 +103,7 @@ const Maintainer = (props) => {
           </div>
         )}
         {selectedState ? (
-          <a onClick={() => submit()} className="btn-large amber">
+          <a onClick={() => accept()} className="btn-large amber">
             Accept Task
           </a>
         ) : (
